@@ -18,7 +18,7 @@ import java.util.Scanner;
  * @author XiaoTiJun
  * @date 1/20/22 9:44 AM
  */
-public class SlaveJerry {
+public class Slave {
 
     public static void main(String[] args) {
         try {

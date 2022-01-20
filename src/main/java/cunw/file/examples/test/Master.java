@@ -30,9 +30,9 @@ public class Master {
 
             ExampleFileAgent nodeFileAgent = new ExampleFileAgent("Master");
 
-            UserCredentials Master = new UserCredentials("Master", "password", "pin");
-            master.getUserManager().createRegisterProcess(Master).execute();
-            master.getUserManager().createLoginProcess(Master, nodeFileAgent).execute();
+            UserCredentials userMaster = new UserCredentials("Master", "password", "pin");
+            master.getUserManager().createRegisterProcess(userMaster).execute();
+            master.getUserManager().createLoginProcess(userMaster, nodeFileAgent).execute();
 
             ConsoleListener cs = new ConsoleListener(new Scanner(System.in), msg -> {
                 System.out.println("Console: " + msg);
