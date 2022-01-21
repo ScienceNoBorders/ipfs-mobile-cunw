@@ -1,0 +1,14 @@
+application:
+  name: file-system
+
+server:
+  port: 9000
+
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure:
+            logging: ERROR
