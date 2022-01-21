@@ -29,6 +29,8 @@ import java.net.UnknownHostException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import static org.hive2hive.core.H2HConstants.MEGABYTES;
+
 /**
  * The network configuration menu of the {@link ConsoleClient}.
  * 
@@ -41,7 +43,8 @@ public final class NodeMenu extends H2HConsoleMenu {
 	private H2HConsoleMenuItem connectToExistingNetworkItem;
 	private IH2HNode node;
 
-	private BigInteger maxFileSize = H2HConstants.DEFAULT_MAX_FILE_SIZE;
+//	private BigInteger maxFileSize = H2HConstants.DEFAULT_MAX_FILE_SIZE;
+	private BigInteger maxFileSize = BigInteger.valueOf(150L).multiply(MEGABYTES);
 	private int maxNumOfVersions = H2HConstants.DEFAULT_MAX_NUM_OF_VERSIONS;
 	private BigInteger maxSizeAllVersions = H2HConstants.DEFAULT_MAX_SIZE_OF_ALL_VERSIONS;
 	private int chunkSize = H2HConstants.DEFAULT_CHUNK_SIZE;
