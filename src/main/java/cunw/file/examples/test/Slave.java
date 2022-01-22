@@ -9,6 +9,8 @@ import org.hive2hive.core.api.interfaces.IFileConfiguration;
 import org.hive2hive.core.api.interfaces.IFileManager;
 import org.hive2hive.core.api.interfaces.IH2HNode;
 import org.hive2hive.core.security.UserCredentials;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -20,6 +22,8 @@ import java.util.Scanner;
  */
 public class Slave {
 
+    static Logger logger = LoggerFactory.getLogger(Slave.class);
+
     public static void main(String[] args) {
         try {
             IFileConfiguration fileConfiguration = FileConfiguration.createDefault();
@@ -27,23 +31,24 @@ public class Slave {
             IH2HNode master = H2HNode.createNode(fileConfiguration);
             master.connect(NetworkConfiguration.create(InetAddress.getLocalHost()));
 
-            ExampleFileAgent nodeFileAgent = new ExampleFileAgent("Slave");
+            ExampleFileAgent nodeFileAgent = new ExampleFileAgent("slave");
 
-            UserCredentials Master = new UserCredentials("Slave", "password", "pin");
-            master.getUserManager().createRegisterProcess(Master).execute();
-            master.getUserManager().createLoginProcess(Master, nodeFileAgent).execute();
+            UserCredentials slave = new UserCredentials("slave", "password", "pin");
+            master.getUserManager().createRegisterProcess(slave).execute();
+            master.getUserManager().createLoginProcess(slave, nodeFileAgent).execute();
 
             ConsoleListener cs = new ConsoleListener(new Scanner(System.in), msg -> {
-                System.out.println("Console: " + msg);
+                logger.info("Console: " + msg);
+
                 try {
                     IFileManager fileManager = master.getFileManager();
-                    File folderAtMaster = new File(nodeFileAgent.getRoot(), "shared-folder");
+                    File folderAtMaster = new File(nodeFileAgent.getRoot(), "shared");
                     fileManager.createDownloadProcess(folderAtMaster).execute();
 
                     File fileMaster = new File(folderAtMaster, "通达信金融终端(开心果整合版)V2021.11.rar");
                     fileManager.createDownloadProcess(fileMaster).execute();
 
-                    System.out.println("Content of the file in the shared folder at Slave: OK!");
+                    logger.info("Content of the file in the shared folder at Slave: OK!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
