@@ -1,0 +1,59 @@
+Manifest-Version: 1.0
+Class-Path: tomp2p-nat-5.0-Beta8.jar android-json-0.0.20131108.vaadin1
+ .jar commons-beanutils-1.9.4.jar error_prone_annotations-2.3.4.jar an
+ notations-13.0.jar el-api-2.2.jar jsqlparser-3.2.jar fastjson-1.2.74.
+ jar kotlin-stdlib-1.4.20.jar guava-29.0-jre.jar jackson-module-parame
+ ter-names-2.11.0.jar spring-webmvc-5.1.19.RELEASE.jar listenablefutur
+ e-9999.0-empty-to-avoid-conflict-with-guava.jar javassist-3.18.1-GA.j
+ ar aspectjweaver-1.9.6.jar jakarta.validation-api-2.0.2.jar jcommande
+ r-1.48.jar spring-boot-starter-web-2.1.18.RELEASE.jar springfox-schem
+ a-2.9.2.jar checker-qual-2.11.1.jar springfox-spring-web-2.9.2.jar co
+ re-3.3.0.jar springfox-swagger-ui-2.9.2.jar spring-boot-starter-loggi
+ ng-2.1.18.RELEASE.jar jackson-module-jaxb-annotations-2.11.0.jar spri
+ ng-beans-5.1.19.RELEASE.jar joda-time-2.10.6.jar tomcat-embed-websock
+ et-9.0.39.jar jsr305-3.0.2.jar fst-2.23.jar spring-test-5.1.19.RELEAS
+ E.jar shiro-config-ogdl-1.6.0.jar json-smart-2.3.jar spring-boot-star
+ ter-test-2.1.18.RELEASE.jar hibernate-validator-6.1.6.Final.jar asm-7
+ .1.jar commons-logging-1.2.jar swagger-models-1.5.20.jar tomp2p-core-
+ 5.0-Beta8.jar shiro-core-1.6.0.jar springfox-spi-2.9.2.jar logback-cl
+ assic-1.2.3.jar kotlin-stdlib-common-1.4.0.jar jackson-databind-2.11.
+ 0.jar spring-jcl-5.1.19.RELEASE.jar springfox-core-2.9.2.jar boot-4.1
+ .0-20210812.004949-1.jar validation-api-2.0.1.Final.jar spring-boot-t
+ est-2.1.18.RELEASE.jar assertj-core-3.11.1.jar shiro-crypto-core-1.6.
+ 0.jar jackson-datatype-jdk8-2.11.0.jar byte-buddy-1.9.16.jar jboss-lo
+ gging-3.3.3.Final.jar jakarta.activation-api-1.2.1.jar logback-core-1
+ .2.3.jar org.hive2hive.processframework-1.2.jar commons-codec-1.11.ja
+ r hamcrest-library-1.3.jar shiro-crypto-cipher-1.6.0.jar lombok-1.18.
+ 14.jar spring-security-crypto-5.1.13.RELEASE.jar xml-apis-1.4.01.jar 
+ mockito-core-2.23.4.jar junit-4.12.jar jackson-annotations-2.11.0.jar
+  dom4j-1.6.1.jar spring-boot-starter-aop-2.1.18.RELEASE.jar spring-ex
+ pression-5.1.19.RELEASE.jar commons-text-1.9.jar okio-2.8.0.jar sprin
+ gfox-swagger-common-2.9.2.jar json-path-2.4.0.jar framework-4.1.0-202
+ 11020.013501-3.jar snakeyaml-1.23.jar shiro-event-1.6.0.jar bcprov-jd
+ k15on-1.66.jar netty-buffer-4.0.28.Final.jar mbassador-1.2.0.jar spri
+ ng-boot-2.1.18.RELEASE.jar shiro-crypto-hash-1.6.0.jar javax.annotati
+ on-api-1.3.2.jar shiro-lang-1.6.0.jar jackson-core-2.11.0.jar classma
+ te-1.4.0.jar httpclient-4.5.13.jar failureaccess-1.0.1.jar shiro-cach
+ e-1.6.0.jar modelmapper-2.3.8.jar swagger-annotations-1.5.20.jar spri
+ ngfox-swagger2-2.9.2.jar jul-to-slf4j-1.7.30.jar javase-3.3.0.jar spr
+ ing-aop-5.1.19.RELEASE.jar hamcrest-core-1.3.jar spring-boot-autoconf
+ igure-2.1.18.RELEASE.jar spring-web-5.1.19.RELEASE.jar spring-boot-st
+ arter-tomcat-2.1.18.RELEASE.jar jackson-datatype-jsr310-2.11.0.jar ob
+ jenesis-2.1.jar spring-core-5.1.19.RELEASE.jar javax.servlet-api-4.0.
+ 1.jar config-1.2.1.jar spring-cloud-context-2.1.6.RELEASE.jar spring-
+ boot-starter-json-2.1.18.RELEASE.jar tomcat-embed-el-9.0.39.jar org.h
+ ive2hive.core-1.2.4.jar tika-core-1.26.jar jsonassert-1.5.0.jar sprin
+ g-boot-test-autoconfigure-2.1.18.RELEASE.jar commons-collections-3.2.
+ 2.jar tomp2p-android-5.0-Beta8.jar spring-context-5.1.19.RELEASE.jar 
+ httpcore-4.4.13.jar accessors-smart-1.2.jar log4j-to-slf4j-2.11.2.jar
+  jai-imageio-core-1.3.1.jar spring-boot-starter-2.1.18.RELEASE.jar by
+ te-buddy-agent-1.9.16.jar netty-common-4.0.28.Final.jar tomp2p-replic
+ ation-5.0-Beta8.jar commons-lang3-3.11.jar netty-transport-4.0.28.Fin
+ al.jar tomcat-embed-core-9.0.39.jar xmlunit-core-2.6.4.jar slf4j-api-
+ 1.7.30.jar commons-io-2.8.0.jar jakarta.xml.bind-api-2.3.2.jar pagehe
+ lper-5.2.0.jar okhttp-4.9.0.jar log4j-api-2.11.2.jar cglib-3.3.0.jar 
+ spring-plugin-core-1.2.0.RELEASE.jar mapstruct-1.2.0.Final.jar bcpkix
+ -jdk15on-1.66.jar j2objc-annotations-1.3.jar shiro-config-core-1.6.0.
+ jar tomp2p-dht-5.0-Beta8.jar spring-plugin-metadata-1.2.0.RELEASE.jar
+Main-Class: org.hive2hive.client.ConsoleClient
+
