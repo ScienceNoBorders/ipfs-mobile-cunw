@@ -44,7 +44,7 @@ public final class UserMenu extends H2HConsoleMenu {
 			@Override
 			protected void execute() throws Exception {
 
-				rootDirectory = new File("/Users/xiaotijun/Downloads/share", "H2H_"
+				rootDirectory = new File("C://P2P", "H2H_"
 						+ menus.getUserMenu().getUserCredentials().getUserId() + "_" + System.currentTimeMillis());
 
 				if (isExpertMode) {

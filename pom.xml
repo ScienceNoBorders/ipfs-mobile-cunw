@@ -21,6 +21,7 @@
         <io.netty.version>4.0.28.Final</io.netty.version>
         <typesafe.version>1.2.1</typesafe.version>
         <tomp2p.version>5.0-Beta8</tomp2p.version>
+        <java-ipfs-http-client>v1.3.3</java-ipfs-http-client>
     </properties>
 
     <dependencies>
@@ -60,7 +61,22 @@
             <version>${hive2hive.version}</version>
         </dependency>
 
+
+
+        <dependency>
+            <groupId>com.github.ipfs</groupId>
+            <artifactId>java-ipfs-http-client</artifactId>
+            <version>${java-ipfs-http-client}</version>
+        </dependency>
+
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>

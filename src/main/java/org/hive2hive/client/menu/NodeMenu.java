@@ -11,6 +11,7 @@ import org.hive2hive.client.console.H2HConsoleMenu;
 import org.hive2hive.client.console.H2HConsoleMenuItem;
 import org.hive2hive.client.util.FileEventListener;
 import org.hive2hive.client.util.MenuContainer;
+import org.hive2hive.client.util.UserEventListener;
 import org.hive2hive.core.H2HConstants;
 import org.hive2hive.core.api.H2HNode;
 import org.hive2hive.core.api.configs.FileConfiguration;
@@ -187,6 +188,7 @@ public final class NodeMenu extends H2HConsoleMenu {
 			print("Network connection successfully established.");
 			// connect the event bus
 			node.getFileManager().subscribeFileEvents(new FileEventListener(node.getFileManager()));
+			node.getUserManager().subscribeFileEvents(new UserEventListener());
 
 			String address = config.getString("InetAddress");
 			if (!"auto".equalsIgnoreCase(address)) {

@@ -44,15 +44,17 @@ public class Master {
                     }
                     fileManager.createAddProcess(folderAtMaster).execute();
 
-                    File file = new File("/Users/xiaotijun/Downloads/通达信金融终端(开心果整合版)V2021.11.rar");
-                    File fileMaster = new File(folderAtMaster, "通达信金融终端(开心果整合版)V2021.11.rar");
+                    /*File file = new File("/Users/xiaotijun/Downloads/通达信金融终端(开心果整合版)V2021.11.rar");
+                    File fileMaster = new File(folderAtMaster, "通达信金融终端(开心果整合版)V2021.11.rar");*/
+                    File file = new File("/Users/xiaotijun/Downloads/交底书-epub文件处理0713.docx");
+                    File fileMaster = new File(folderAtMaster, "交底书-epub文件处理0713.docx");
                     if ( !fileMaster.exists() ) {
                         FileUtils.copyFile(file, fileMaster);
                     }
                     fileManager.createAddProcess(fileMaster).execute();
 
                     fileManager.createShareProcess(folderAtMaster, "slave", PermissionType.WRITE).execute();
-                    fileManager.createShareProcess(folderAtMaster, "tom", PermissionType.WRITE).execute();
+//                    fileManager.createShareProcess(folderAtMaster, "tom", PermissionType.WRITE).execute();
                     System.out.println("Content of the file in the shared folder at Master: OK!");
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -34,9 +34,9 @@
     <logger name="java.sql.PreparedStatement" level="DEBUG"/>-->
 	<!-- mybatis打印sql语句 -->
 
-	<logger name="cunw.file" level="ERROR" />
+	<logger name="cunw.file" level="INFO" />
 	<!-- 日志输出级别 -->
-	<root level="ERROR">
+	<root level="INFO">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="FILE"/>
 	</root>
