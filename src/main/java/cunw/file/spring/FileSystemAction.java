@@ -47,16 +47,16 @@ public class FileSystemAction {
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
-    public String upload() throws IOException {
-        NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(new File("/Users/xiaotijun/Downloads/share/交底书-epub文件处理0713.docx"));
+    public String upload(@RequestParam("filePath") String filePath) throws IOException {
+        NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(new File(filePath));
         MerkleNode addResult = ipfs.add(file).get(0);
         String addHash = addResult.hash.toBase58();
         return StringUtils.isEmpty(addHash) ? "upload fail!" : addHash;
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public String download(@RequestParam("hash") String hash) throws IOException {
-        Path path = new File("/Users/xiaotijun/Downloads/share", "testone.docx").toPath();
+    public String download(@RequestParam("hash") String hash, @RequestParam("fileName") String fileName) throws IOException {
+        Path path = new File("/Users/xiaotijun/Downloads/share", fileName).toPath();
         Multihash multihash = Multihash.fromBase58(hash);
         InputStream inputData = ipfs.catStream(multihash);
         long copy = Files.copy(inputData, path);
