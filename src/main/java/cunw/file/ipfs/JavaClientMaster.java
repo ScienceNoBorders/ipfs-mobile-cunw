@@ -26,11 +26,12 @@ public class JavaClientMaster {
 
     public static void main(String[] args) {
         try {
-            IPFS ipfs = new IPFS("/ip4/127.0.0.1/tcp/5001");
+            IPFS ipfs = new IPFS("/ip4/159.75.113.238/tcp/5001");
 
             ipfs.refs.local();
-            String hash = "QmTAineu2PbzPTAyRnTfdJLeEgiMgWaz3YpN7WJAbS9axL";
-            Path path = new File("/Users/xiaotijun/Downloads/share", "test.rar").toPath();
+
+            String hash = "QmU2RXfwwJgNYvKvkZsgYYxLd4FUx8aogUn2yQztz82VKc";
+            Path path = new File("/Users/xiaotijun/Downloads/share", "testone.docx").toPath();
             Multihash multihash = Multihash.fromBase58(hash);
 
             //打印文件内容
@@ -40,6 +41,10 @@ public class JavaClientMaster {
             //下载文件
             byte[] byteData = ipfs.get(multihash);
             Files.copy(inputData, path);
+
+//            NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(new File("/Users/xiaotijun/Downloads/share/交底书-epub文件处理0713.docx"));
+//            MerkleNode merkleNode = ipfs.add(file).get(0);
+//            System.out.println(merkleNode.hash);
 
             //查看文件信息
             List<MerkleNode> nodes = ipfs.ls(multihash);
