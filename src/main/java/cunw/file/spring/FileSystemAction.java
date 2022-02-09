@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.List;
 
 /**
  * @author XiaoTiJun
@@ -29,13 +28,14 @@ import java.nio.file.Path;
 @RestController
 public class FileSystemAction {
 
-    private static Logger logger =  LoggerFactory.getLogger(FileSystemAction.class);
+    private static Logger logger = LoggerFactory.getLogger(FileSystemAction.class);
     private static IPFS ipfs = null;
 
     static {
         try {
-            ipfs = new IPFS("/ip4/159.75.113.238/tcp/5001");
-            ipfs.refs.local();
+            ipfs = new IPFS("/ip4/192.168.79.82/tcp/5001");
+            List<Multihash> local = ipfs.refs.local();
+//            local.forEach(multihash -> System.out.println("Peer ID: " + multihash));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,11 +56,31 @@ public class FileSystemAction {
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public String download(@RequestParam("hash") String hash, @RequestParam("fileName") String fileName) throws IOException {
-        Path path = new File("/Users/xiaotijun/Downloads/share", fileName).toPath();
         Multihash multihash = Multihash.fromBase58(hash);
-        InputStream inputData = ipfs.catStream(multihash);
-        long copy = Files.copy(inputData, path);
-        return copy > 0 ? "download success!" : "download fail!";
+        byte[] data = ipfs.cat(multihash);
+        File file = new File("/Users/xiaotijun/Downloads/share", fileName);
+        if (file.exists()) {
+            boolean delete = file.delete();
+        }
+        FileOutputStream fos = new FileOutputStream(file);
+        try {
+            if (data != null) {
+                fos.write(data, 0, data.length);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            fos.flush();
+            fos.close();
+        }
+        return "download success!";
+    }
+
+    @RequestMapping(value = "remove", method = RequestMethod.GET)
+    public String remove(@RequestParam("hash") String hash) throws IOException {
+        Multihash filePointer = Multihash.fromBase58(hash);
+        List<Multihash> rm = ipfs.pin.rm(filePointer);
+        return StringUtils.isEmpty(rm.get(0)) ? "remove fail!" : "remove seccess!";
     }
 
 
