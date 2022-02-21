@@ -1,6 +1,7 @@
 package ipfs.gomobile.example;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView ipfsError;
 
     private PeerCounter peerCounterUpdater;
+    private TextView ipAddress;
+    private TextView timing;
+    private DownloadTiming downloadTiming;
 
     void setIpfs(IPFS ipfs) {
         this.ipfs = ipfs;
@@ -76,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
         ipfsStatus = findViewById(R.id.ipfsStatus);
         ipfsProgress = findViewById(R.id.ipfsProgress);
         ipfsError = findViewById(R.id.ipfsError);
+        ipAddress = findViewById(R.id.ipAddress);
+        timing = findViewById(R.id.timing);
 
+        requestMyPermissions();
         if (ContextCompat.checkSelfPermission(
             getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED) {
@@ -92,20 +99,19 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityResultLauncher<String[]> selectFileResultLauncher = registerForActivityResult(
             new ActivityResultContracts.OpenDocument(),
-            new ActivityResultCallback<Uri>() {
-                @Override
-                public void onActivityResult(Uri result) {
-                    if (result != null) {
-                        Log.d(TAG, String.format("onActivityResult: GetContent: Uri=%s", result.toString()));
-                        new ShareFile(activity, result).execute();
-                    }
+            result -> {
+                if (result != null) {
+                    Log.d(TAG, String.format("onActivityResult: GetContent: Uri=%s", result));
+                    new ShareFile(activity, result).execute();
                 }
             });
 
         xkcdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FetchRandomXKCD(activity).execute();
+                Toast.makeText(xkcdButton.getContext(), R.string.random_xkcd_disable,
+                    Toast.LENGTH_LONG).show();
+//                new FetchRandomXKCD(activity).execute();
             }
         });
 
@@ -190,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
     void displayPeerIDResult(String peerID) {
         ipfsTitle.setText(getString(R.string.titlePeerID));
         ipfsResult.setText(peerID);
+        ipAddress.setText(getString(R.string.ipAddress, StartIPFS.getLocalIpAddress(getApplicationContext())));
         ipfsStartingProgress.setVisibility(View.INVISIBLE);
 
         updatePeerCount(0);
@@ -199,10 +206,16 @@ public class MainActivity extends AppCompatActivity {
         xkcdButton.setVisibility(View.VISIBLE);
         shareButton.setVisibility(View.VISIBLE);
         fetchButton.setVisibility(View.VISIBLE);
+        ipAddress.setVisibility(View.VISIBLE);
 
-        peerCounterUpdater = new PeerCounter(this, 1000);
+        peerCounterUpdater = new PeerCounter(this, 3000);
         peerCounterUpdater.start();
     }
+
+    void updateDownloadTiming(Long seconds, String fileSize) {
+        timing.setText(getString(R.string.timing, seconds, fileSize));
+    }
+
 
     void updatePeerCount(int count) {
         peerCounter.setText(getString(R.string.titlePeerCon, count));
@@ -215,6 +228,10 @@ public class MainActivity extends AppCompatActivity {
         ipfsError.setVisibility(View.INVISIBLE);
         ipfsProgress.setVisibility(View.VISIBLE);
 
+        timing.setVisibility(View.VISIBLE);
+        downloadTiming = new DownloadTiming(this, 1000);
+        downloadTiming.start();
+
         xkcdButton.setAlpha(0.5f);
         xkcdButton.setClickable(false);
         shareButton.setAlpha(0.5f);
@@ -223,9 +240,11 @@ public class MainActivity extends AppCompatActivity {
         fetchButton.setClickable(false);
     }
 
-    void displayStatusSuccess() {
-        ipfsStatus.setVisibility(View.INVISIBLE);
+    @SuppressLint("SetTextI18n")
+    void displayStatusSuccess(String filePath) {
         ipfsProgress.setVisibility(View.INVISIBLE);
+        downloadTiming.stop();
+        ipfsStatus.setText("Download file success! file path: " + filePath);
 
         xkcdButton.setAlpha(1);
         xkcdButton.setClickable(true);
@@ -271,4 +290,25 @@ public class MainActivity extends AppCompatActivity {
         }
         return new String(hexChars, StandardCharsets.UTF_8);
     }
+
+    private void requestMyPermissions() {
+
+        if (ContextCompat.checkSelfPermission(this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            //没有授权，编写申请权限代码
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        } else {
+            Log.d(TAG, "requestMyPermissions: 有写SD权限");
+        }
+        if (ContextCompat.checkSelfPermission(this,
+            Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            //没有授权，编写申请权限代码
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+        } else {
+            Log.d(TAG, "requestMyPermissions: 有读SD权限");
+        }
+    }
+
 }

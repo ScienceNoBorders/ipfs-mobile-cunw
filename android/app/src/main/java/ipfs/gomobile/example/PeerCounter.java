@@ -23,16 +23,13 @@ final class PeerCounter {
     }
 
     void start() {
-        runner = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!Thread.currentThread().isInterrupted()) {
-                    updatePeerCount();
-                    try {
-                        Thread.sleep(interval);
-                    } catch (InterruptedException e) {
-                        return;
-                    }
+        runner = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                updatePeerCount();
+                try {
+                    Thread.sleep(interval);
+                } catch (InterruptedException e) {
+                    return;
                 }
             }
         });
@@ -56,12 +53,7 @@ final class PeerCounter {
             JSONArray peerList = jsonList.get(0).getJSONArray("Peers");
             final int count = peerList.length();
 
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    activity.updatePeerCount(count);
-                }
-            });
+            activity.runOnUiThread(() -> activity.updatePeerCount(count));
         } catch (JSONException err) {
             // Should only occurs if the peer list is empty, don't log an error
         } catch (Exception err) {

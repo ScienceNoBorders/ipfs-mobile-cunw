@@ -108,7 +108,7 @@ final class ShareFile extends AsyncTask<Void, Void, String> {
             activity.displayStatusError(activity.getString(R.string.titleImageSharingErr), result);
             Log.e(TAG, "IPFS add error: " + result);
         } else {
-            activity.displayStatusSuccess();
+            activity.displayStatusSuccess("");
 
             Intent intent = new Intent(activity, ShowQRCode.class);
             intent.putExtra("cid", result);
