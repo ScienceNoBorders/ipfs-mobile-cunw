@@ -26,6 +26,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 import ipfs.gomobile.android.IPFS;
 
@@ -52,6 +53,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView ipAddress;
     private TextView timing;
     private DownloadTiming downloadTiming;
+
+    // 测试button
+    private Button button1_22M;
+    private Button button2_28M;
+    private Button button3_38M;
+    private Button button4_75M;
+    private Button button5_225M;
+    private Button button6_231M;
+
 
     void setIpfs(IPFS ipfs) {
         this.ipfs = ipfs;
@@ -118,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectFileResultLauncher.launch(new String[] {"image/*"});
+                selectFileResultLauncher.launch(new String[]{"image/*"});
             }
         });
 
@@ -131,14 +141,35 @@ public class MainActivity extends AppCompatActivity {
             integrator.initiateScan();
             new IntentIntegrator(activity).initiateScan();
         });
+
+        button1_22M = findViewById(R.id.button);
+        button2_28M = findViewById(R.id.button2);
+        button3_38M = findViewById(R.id.button3);
+        button4_75M = findViewById(R.id.button4);
+        button5_225M = findViewById(R.id.button5);
+        button6_231M = findViewById(R.id.button6);
+
+        HashMap<Button, String> downloadFile = new HashMap<>();
+        downloadFile.put(button1_22M, "QmWKnAuUGLc8EamtSXfgs2Zutje3bNh83Wni78dS5Skt4K");
+        downloadFile.put(button2_28M, "QmSPkZMbJiUqYe5CDdWLVVfDiXvJk6U8Pct9CRqUKgjDqj");
+        downloadFile.put(button3_38M, "QmcBuGWQBcwAktLyaCrJFqxqEPFXUuFDbtFcumjFVWL5Tm");
+        downloadFile.put(button4_75M, "Qmb55MeNuNdb6kvCKzUELCWQw7Fo8R8X9jGgUXMsSEXqb6");
+        downloadFile.put(button5_225M, "QmSuvbUYyjW3MDfrVPcgWy7fmUe8iQmHddpNre3woAdREy");
+        downloadFile.put(button6_231M, "QmTjMw5CB4ZRwAaLo7V44wyAYiPYaYW7gMNXh4GaUpMgmp");
+
+        downloadFile.forEach((key, value) -> {
+            key.setOnClickListener(v -> {
+                new FetchFile(MainActivity.this, value).execute();
+            });
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // QR Code scan result
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() == null) {
+        if (result != null) {
+            if (result.getContents() == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
@@ -151,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] strPerm,
-                                           @NonNull int [] grantResults) {
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, strPerm, grantResults);
 
         if (grantResults.length > 0
@@ -246,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     void displayStatusSuccess(String filePath) {
-        if ( !filePath.isEmpty() ) {
+        if (!filePath.isEmpty()) {
             ipfsStatus.setText("Download file success! file path: " + filePath);
         } else {
             ipfsStatus.setVisibility(View.INVISIBLE);
