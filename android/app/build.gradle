@@ -33,6 +33,13 @@ android {
 		htmlReport false
 		abortOnError true
 	}
+
+	android.applicationVariants.all { variant ->
+		variant.outputs.all {
+			outputFileName = "ipfs_${buildType.name}.apk"
+		}
+	}
+
 }
 
 dependencies {

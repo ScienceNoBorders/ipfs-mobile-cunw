@@ -35,3 +35,4 @@ task setupAllProjectsRepos(dependsOn: 'importManifest') {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

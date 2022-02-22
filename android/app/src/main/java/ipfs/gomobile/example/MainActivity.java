@@ -122,17 +122,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fetchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-                integrator.setPrompt("Scan a QR code");
-                integrator.setOrientationLocked(false);
-                integrator.setBarcodeImageEnabled(true);
-                integrator.initiateScan();
-                new IntentIntegrator(activity).initiateScan();
-            }
+        fetchButton.setOnClickListener(v -> {
+            IntentIntegrator integrator = new IntentIntegrator(activity);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+            integrator.setPrompt("Scan a QR code");
+            integrator.setOrientationLocked(false);
+            integrator.setBarcodeImageEnabled(true);
+            integrator.initiateScan();
+            new IntentIntegrator(activity).initiateScan();
         });
     }
 
@@ -208,6 +205,13 @@ public class MainActivity extends AppCompatActivity {
         fetchButton.setVisibility(View.VISIBLE);
         ipAddress.setVisibility(View.VISIBLE);
 
+        button1_22M.setVisibility(View.VISIBLE);
+        button2_28M.setVisibility(View.VISIBLE);
+        button3_38M.setVisibility(View.VISIBLE);
+        button4_75M.setVisibility(View.VISIBLE);
+        button5_225M.setVisibility(View.VISIBLE);
+        button6_231M.setVisibility(View.VISIBLE);
+
         peerCounterUpdater = new PeerCounter(this, 3000);
         peerCounterUpdater.start();
     }
@@ -242,9 +246,13 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     void displayStatusSuccess(String filePath) {
+        if ( !filePath.isEmpty() ) {
+            ipfsStatus.setText("Download file success! file path: " + filePath);
+        } else {
+            ipfsStatus.setVisibility(View.INVISIBLE);
+        }
         ipfsProgress.setVisibility(View.INVISIBLE);
         downloadTiming.stop();
-        ipfsStatus.setText("Download file success! file path: " + filePath);
 
         xkcdButton.setAlpha(1);
         xkcdButton.setClickable(true);

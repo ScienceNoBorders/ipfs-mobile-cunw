@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
 import java.util.Objects;
 import java.util.Random;
 
@@ -26,7 +27,7 @@ final class FetchFile extends AsyncTask<Void, Void, String> {
     private boolean backgroundError;
     private static byte[] fetchedData;
     private String cid;
-    private static String sizeResult;
+    private static volatile String sizeResult;
     private File file;
 
     FetchFile(MainActivity activity, String cid) {
@@ -38,7 +39,6 @@ final class FetchFile extends AsyncTask<Void, Void, String> {
     protected void onPreExecute() {
         MainActivity activity = activityRef.get();
         if (activity == null || activity.isFinishing()) return;
-        sizeResult = null;
         activity.displayStatusProgress(activity.getString(R.string.titleImageFetching));
     }
 
@@ -53,11 +53,11 @@ final class FetchFile extends AsyncTask<Void, Void, String> {
         IPFS ipfs = activity.getIpfs();
 
         try {
-            fetchedData = ipfs.newRequest("get")
+                fetchedData = ipfs.newRequest("cat")
                 .withArgument(cid)
                 .send();
-            getPrintSize();
-            if(fetchedData.length > 15 * 1024) {
+            sizeResult = getPrintSize();
+            if(fetchedData.length > 15 * 1024 * 1024) {
                 createFileWithByte();
                 return activity.getString(R.string.titleFetchedFile);
             }
@@ -78,15 +78,16 @@ final class FetchFile extends AsyncTask<Void, Void, String> {
             activity.displayStatusError(activity.getString(R.string.titleImageFetchingErr), result);
             Log.e(TAG, "Ipfs image fetch error: " + result);
         } else {
-            activity.displayStatusSuccess(file.getAbsolutePath());
-
-            if ( fetchedData.length < 15 * 1024) {
+            if ( fetchedData.length < 15 * 1024 * 1024) {
+                activity.displayStatusSuccess("");
                 // Put directly data through this way because of size limit with Intend
                 DisplayImageActivity.fetchedData = fetchedData;
 
                 Intent intent = new Intent(activity, DisplayImageActivity.class);
                 intent.putExtra("Title", result);
                 activity.startActivity(intent);
+            } else {
+                activity.displayStatusSuccess(file.getAbsolutePath());
             }
         }
     }
@@ -101,29 +102,27 @@ final class FetchFile extends AsyncTask<Void, Void, String> {
      * @return
      */
     public static String getPrintSize(){
-        long size = fetchedData.length;
-        long rest = 0;
-        if(size < 1024){
-            sizeResult = size + "B";
-        }else{
-            size /= 1024;
+        //获取到的size为：1705230
+        int GB = 1024 * 1024 * 1024;//定义GB的计算常量
+        int MB = 1024 * 1024;//定义MB的计算常量
+        int KB = 1024;//定义KB的计算常量
+        DecimalFormat df = new DecimalFormat("0.00");//格式化小数
+        String resultSize = "";
+        int length = fetchedData.length;
+        if (length / GB >= 1) {
+            //如果当前Byte的值大于等于1GB
+            resultSize = df.format(length / (float) GB) + "GB   ";
+        } else if (length / MB >= 1) {
+            //如果当前Byte的值大于等于1MB
+            resultSize = df.format(length / (float) MB) + "MB   ";
+        } else if (length / KB >= 1) {
+            //如果当前Byte的值大于等于1KB
+            resultSize = df.format(length / (float) KB) + "KB   ";
+        } else {
+            resultSize = length + "B   ";
         }
+        return resultSize;
 
-        if(size < 1024){
-            sizeResult = size + "KB";
-        }else{
-            rest = size % 1024;
-            size /= 1024;
-        }
-
-        if(size < 1024){
-            size = size * 100;
-            sizeResult = size / 100 + "." + rest * 100 / 1024 % 100 + "MB";
-        }else{
-            size = size * 100 / 1024;
-            sizeResult = size / 100 + "." + size % 100 + "GB";
-        }
-        return sizeResult;
     }
 
     private void createFileWithByte() {

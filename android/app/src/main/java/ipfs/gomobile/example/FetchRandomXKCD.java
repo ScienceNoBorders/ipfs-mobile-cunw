@@ -14,7 +14,7 @@ import ipfs.gomobile.android.IPFS;
 final class FetchRandomXKCD extends AsyncTask<Void, Void, String> {
     private static final String TAG = "FetchRandomXKCD";
 
-    private static final String XKCDIPNS = "/ipns/xkcd.hacdias.com";
+        private static final String XKCDIPNS = "/ipns/xkcd.hacdias.com";
 
     private static Random random = new Random();
 
