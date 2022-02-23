@@ -8,6 +8,12 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import ipfs.gomobile.android.IPFS;
 
@@ -51,7 +57,14 @@ final class PeerCounter {
                 .sendToJSONList();
 
             JSONArray peerList = jsonList.get(0).getJSONArray("Peers");
-            final int count = peerList.length();
+
+            HashSet<String> peers = new HashSet<>();
+            for (int i = 0; i < peerList.length(); i++) {
+                JSONObject peer = (JSONObject) peerList.get(i);
+                peers.add(peer.getString("Peer"));
+            }
+
+            final int count = peers.size();
 
             activity.runOnUiThread(() -> activity.updatePeerCount(count));
         } catch (JSONException err) {
@@ -60,6 +73,12 @@ final class PeerCounter {
             Log.e(TAG, err.toString());
         }
     }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+
 
     void stop() {
         if (runner != null) {

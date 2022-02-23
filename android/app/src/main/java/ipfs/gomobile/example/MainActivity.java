@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
     private DownloadTiming downloadTiming;
 
     // 测试button
-    private Button button1_22M;
-    private Button button2_28M;
-    private Button button3_38M;
-    private Button button4_75M;
-    private Button button5_225M;
+    private Button button1_10M;
+    private Button button2_50M;
+    private Button button3_100M;
+    private Button button4_200M;
+    private Button button5_500M;
     private Button button6_231M;
 
 
@@ -142,19 +142,19 @@ public class MainActivity extends AppCompatActivity {
             new IntentIntegrator(activity).initiateScan();
         });
 
-        button1_22M = findViewById(R.id.button);
-        button2_28M = findViewById(R.id.button2);
-        button3_38M = findViewById(R.id.button3);
-        button4_75M = findViewById(R.id.button4);
-        button5_225M = findViewById(R.id.button5);
+        button1_10M = findViewById(R.id.button);
+        button2_50M = findViewById(R.id.button2);
+        button3_100M = findViewById(R.id.button3);
+        button4_200M = findViewById(R.id.button4);
+        button5_500M = findViewById(R.id.button5);
         button6_231M = findViewById(R.id.button6);
 
         HashMap<Button, String> downloadFile = new HashMap<>();
-        downloadFile.put(button1_22M, "QmWKnAuUGLc8EamtSXfgs2Zutje3bNh83Wni78dS5Skt4K");
-        downloadFile.put(button2_28M, "QmSPkZMbJiUqYe5CDdWLVVfDiXvJk6U8Pct9CRqUKgjDqj");
-        downloadFile.put(button3_38M, "QmcBuGWQBcwAktLyaCrJFqxqEPFXUuFDbtFcumjFVWL5Tm");
-        downloadFile.put(button4_75M, "Qmb55MeNuNdb6kvCKzUELCWQw7Fo8R8X9jGgUXMsSEXqb6");
-        downloadFile.put(button5_225M, "QmSuvbUYyjW3MDfrVPcgWy7fmUe8iQmHddpNre3woAdREy");
+        downloadFile.put(button1_10M, "QmaJ6kN9fW3TKpVkpf1NuW7cjhHjNp5Jwr3cQuHzsoZWkJ");
+        downloadFile.put(button2_50M, "Qme9ZiuG2zpL1qtFNvWKYkj7MYzeHH9b4qrgeYJMUDRjpu");
+        downloadFile.put(button3_100M, "Qmca3PNFKuZnYkiVv1FpcV1AfDUm4qCSHoYjPTBqDAsyk8");
+        downloadFile.put(button4_200M, "QmXo4G557RDJQfVjg9fKW5RJkUyPJ3YS6WGEw934ZcQeVT");
+        downloadFile.put(button5_500M, "QmV7q5aTmvZtGWja4wpodiUTEpBVWYFkQGRQ8PmJMDPG62");
         downloadFile.put(button6_231M, "QmTjMw5CB4ZRwAaLo7V44wyAYiPYaYW7gMNXh4GaUpMgmp");
 
         downloadFile.forEach((key, value) -> {
@@ -236,12 +236,12 @@ public class MainActivity extends AppCompatActivity {
         fetchButton.setVisibility(View.VISIBLE);
         ipAddress.setVisibility(View.VISIBLE);
 
-        button1_22M.setVisibility(View.VISIBLE);
-        button2_28M.setVisibility(View.VISIBLE);
-        button3_38M.setVisibility(View.VISIBLE);
-        button4_75M.setVisibility(View.VISIBLE);
-        button5_225M.setVisibility(View.VISIBLE);
-        button6_231M.setVisibility(View.VISIBLE);
+        button1_10M.setVisibility(View.VISIBLE);
+        button2_50M.setVisibility(View.VISIBLE);
+        button3_100M.setVisibility(View.VISIBLE);
+        button4_200M.setVisibility(View.VISIBLE);
+        button5_500M.setVisibility(View.VISIBLE);
+//        button6_231M.setVisibility(View.VISIBLE);
 
         peerCounterUpdater = new PeerCounter(this, 3000);
         peerCounterUpdater.start();
